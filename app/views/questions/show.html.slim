@@ -4,6 +4,11 @@ p = @question.body
 h2 Answers:
 - @question.answers.each do |answer|
   p = answer.body
+  - if answer.persisted? && user_signed_in? && current_user == answer.author
+    = link_to 'Delete answer',
+              question_answer_path(@question, answer),
+              method: :delete,
+              data: { confirm: 'Are you sure?' }
 
 - if user_signed_in?
   - if @answer.errors.any? 

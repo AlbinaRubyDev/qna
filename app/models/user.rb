@@ -8,4 +8,5 @@ class User < ApplicationRecord
          :validatable
 
   has_many :questions, dependent: :destroy, foreign_key: :author_id
+  has_many :answers, dependent: :destroy, foreign_key: :author_id
 end
