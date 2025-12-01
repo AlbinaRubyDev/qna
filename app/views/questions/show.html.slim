@@ -16,5 +16,8 @@ h2 Answers:
     = f.text_area :body
     = f.submit 'Submit answer'
 
+  - if current_user == @question.author
+    = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
+
 - else
   p Log in to write a answer
