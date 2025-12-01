@@ -5,9 +5,9 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
 
     if @answer.save
-      redirect_to [ @question, :answers ]
+      redirect_to @question
     else
-      render :new
+      render "questions/show"
     end
   end
 

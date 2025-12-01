@@ -1,2 +1,19 @@
 h1 = @question.title
 p = @question.body
+
+h2 Answers:
+- @question.answers.each do |answer|
+  p = answer.body
+
+- if user_signed_in?
+  - if @answer.errors.any? 
+    ul 
+      - @answer.errors.full_messages.each do |msg| 
+        li = msg
+
+  = form_with model: [@question, @answer], local: true do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit 'Submit answer'
+- else
+  p Log in to write a answer
