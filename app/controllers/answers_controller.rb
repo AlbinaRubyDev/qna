@@ -14,8 +14,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-    redirect_to questions_path, notice: "Your answer was succesfully deleted"
+    if @answer.author == current_user
+      @answer.destroy
+      redirect_to questions_path, notice: "Your answer was succesfully deleted"
+    else
+      redirect_to questions_path
+    end
   end
 
   private

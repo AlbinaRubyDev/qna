@@ -34,7 +34,7 @@ feature 'User can create answer', %q(
   scenario 'Unauthenticated user tries to write a answer' do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Submit answer'
+    expect(page).to_not have_link 'Submit answer'
     expect(page).to have_content 'Log in to write a answer'
   end
 end

@@ -4,7 +4,7 @@ p = @question.body
 h2 Answers:
 - @question.answers.each do |answer|
   p = answer.body
-  - if answer.persisted? && user_signed_in? && current_user == answer.author
+  - if answer.persisted? && user_signed_in? && current_user.id == answer.author_id
     = link_to 'Delete answer',
               question_answer_path(@question, answer),
               method: :delete,

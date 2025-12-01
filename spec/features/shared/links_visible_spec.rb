@@ -13,35 +13,35 @@ feature 'User can see links', %q(
 
     visit root_path
 
-    expect(page).to have_content 'Log out'
-    expect(page).to_not have_content 'Sign in'
+    expect(page).to have_link 'Log out'
+    expect(page).to_not have_link 'Sign in'
 
     visit questions_path
 
-    expect(page).to have_content 'Log out'
-    expect(page).to_not have_content 'Sign in'
+    expect(page).to have_link 'Log out'
+    expect(page).to_not have_link 'Sign in'
 
     visit question_path(question)
 
-    expect(page).to have_content 'Log out'
-    expect(page).to_not have_content 'Sign in'
+    expect(page).to have_link 'Log out'
+    expect(page).to_not have_link 'Sign in'
   end
 
 
   scenario 'Unauthenticated user see sign in/sign up links' do
     visit root_path
 
-    expect(page).to_not have_content 'Log out'
-    expect(page).to have_content 'Sign in'
+    expect(page).to_not have_link 'Log out'
+    expect(page).to have_link 'Sign in'
 
     visit questions_path
 
-    expect(page).to_not have_content 'Log out'
-    expect(page).to have_content 'Sign in'
+    expect(page).to_not have_link 'Log out'
+    expect(page).to have_link 'Sign in'
 
     visit question_path(question)
 
-    expect(page).to_not have_content 'Log out'
-    expect(page).to have_content 'Sign in'
+    expect(page).to_not have_link 'Log out'
+    expect(page).to have_link 'Sign in'
   end
 end
