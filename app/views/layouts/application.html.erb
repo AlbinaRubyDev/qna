@@ -17,7 +17,12 @@
     <%= javascript_importmap_tags %>
   </head>
 
+  <%= render 'shared/navigation' %>
+  <%= render 'shared/flash' %>
+
   <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>

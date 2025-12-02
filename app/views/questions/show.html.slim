@@ -1,1 +1,25 @@
-h1 = question.title
+h1 = @question.title
+p = @question.body
+
+h2 Answers:
+.answers
+  - @question.answers.each do |answer|
+    p = answer.body
+    - if answer.persisted? && current_user&.id == answer.author_id
+      = link_to 'Delete answer',
+                question_answer_path(@question, answer),
+                method: :delete,
+                data: { confirm: 'Are you sure?' }
+
+- if user_signed_in?
+  = render 'shared/errors', resource: @answer
+  = form_with model: [@question, @answer], local: true do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit 'Submit answer'
+
+  - if current_user == @question.author
+    = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
+
+- else
+  p Log in to write a answer
