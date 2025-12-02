@@ -36,7 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.author == current_user
+    if @question.author_id == current_user.id
       @question.destroy
       redirect_to questions_path, notice: "Your question was succesfully deleted"
     else

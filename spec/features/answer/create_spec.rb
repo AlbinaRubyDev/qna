@@ -16,12 +16,15 @@ feature 'User can create answer', %q(
     end
 
     scenario 'writes a answer' do
-      fill_in 'answer_body', with: 'answer text text text'
+      fill_in 'Body', with: 'answer text text text'
       click_on 'Submit answer'
 
+      expect(current_path).to eq question_path(question)
       expect(page).to have_content question.title
       expect(page).to have_content question.body
-      expect(page).to have_content 'answer text text text'
+      within '.answers' do
+        expect(page).to have_content 'answer text text text'
+      end
     end
 
      scenario 'writes a answer with errors' do
