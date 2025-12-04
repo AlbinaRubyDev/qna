@@ -8,7 +8,8 @@ h2 Answers:
     - if answer.persisted? && current_user&.id == answer.author_id
       = link_to 'Delete answer',
                 question_answer_path(@question, answer),
-                data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}
+                method: :delete,
+                data: { confirm: 'Are you sure?' }
 
 - if user_signed_in?
   = render 'shared/errors', resource: @answer
@@ -18,9 +19,7 @@ h2 Answers:
     = f.submit 'Submit answer'
 
   - if current_user == @question.author
-    = link_to 'Delete question', 
-              question_path(@question), 
-              data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}
+    = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
 
 - else
   p Log in to write a answer
