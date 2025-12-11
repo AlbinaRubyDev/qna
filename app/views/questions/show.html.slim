@@ -3,17 +3,13 @@ p = @question.body
 
 h2 Answers:
 .answers
-  - @question.answers.each do |answer|
-    p = answer.body
-    - if answer.persisted? && current_user&.id == answer.author_id
-      = link_to 'Delete answer',
-                question_answer_path(@question, answer),
-                method: :delete,
-                data: { confirm: 'Are you sure?' }
+  = render @question.answers
 
-- if user_signed_in?
+.answer-errors
   = render 'shared/errors', resource: @answer
-  = form_with model: [@question, @answer], local: true do |f|
+- if user_signed_in?
+  = form_with model: [@question, @answer], data: { remote: true} do |f| 
+
     = f.label :body
     = f.text_area :body
     = f.submit 'Submit answer'
