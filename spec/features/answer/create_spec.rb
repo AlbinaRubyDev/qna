@@ -16,7 +16,7 @@ feature 'User can create answer', %q(
     end
 
     scenario 'writes a answer', js: true do
-      fill_in 'Body', with: 'answer text text text'
+      find('#new_answer_body').set('answer text text text')
       click_on 'Submit answer'
 
       expect(current_path).to eq question_path(question)
@@ -34,7 +34,7 @@ feature 'User can create answer', %q(
      end
   end
 
-  scenario 'Unauthenticated user tries to write a answer' do
+  scenario 'Unauthenticated user tries to write a answer', js: true do
     visit question_path(question)
 
     expect(page).to_not have_link 'Submit answer'

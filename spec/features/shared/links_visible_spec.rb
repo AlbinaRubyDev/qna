@@ -7,7 +7,7 @@ feature 'User can see links', %q(
 ) do
   given(:question) { create(:question) }
 
-  scenario 'Authenticated user see sign out links' do
+  scenario 'Authenticated user see sign out links', js: true do
     user = create(:user)
     sign_in(user)
 
@@ -28,7 +28,7 @@ feature 'User can see links', %q(
   end
 
 
-  scenario 'Unauthenticated user see sign in/sign up links' do
+  scenario 'Unauthenticated user see sign in/sign up links', js: true do
     visit root_path
 
     expect(page).to_not have_link 'Log out'
