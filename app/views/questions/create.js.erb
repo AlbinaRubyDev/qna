@@ -1,0 +1,8 @@
+$('.error-title, .error-body').html('');
+
+<% if @question.errors.any? %>
+  $('.error-title').html("<%= j @question.errors.full_messages_for(:title).join(', ') %>");
+  $('.error-body').html("<%= j @question.errors.full_messages_for(:body).join(', ') %>");
+<% else %>
+  window.location = "<%= question_path(@question) %>";
+<% end %>

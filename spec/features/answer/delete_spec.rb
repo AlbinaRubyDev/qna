@@ -15,10 +15,12 @@ feature 'User can delete his answer', %q(
       sign_in(author)
       visit question_path(question)
 
-      expect(page).to have_content answer.body
+      within ".answer[data-answer-id='#{answer.id}']" do
+        expect(page).to have_content answer.body
 
-      accept_confirm do
-        click_on 'Delete answer'
+        accept_confirm do
+          click_on 'Delete answer'
+        end
       end
 
       expect(page).to have_content 'Your answer was succesfully deleted'

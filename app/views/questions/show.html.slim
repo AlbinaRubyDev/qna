@@ -1,5 +1,8 @@
-h1 = @question.title
-p = @question.body
+- if params[:notice] == 'created'
+  p.notice Your question was successfully created
+   
+.questions
+  = render @question
 
 h2 Answers:
 .answers
@@ -7,14 +10,11 @@ h2 Answers:
 
 .answer-errors
   = render 'shared/errors', resource: @answer
+  
 - if user_signed_in?
   = form_with model: [@question, @answer], data: { remote: true}, class: 'new-answer' do |f| 
     = f.label :body, for: 'new_answer_body'
     = f.text_area :body, id: 'new_answer_body'
     = f.submit 'Submit answer'
-
-  - if current_user == @question.author
-    = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
-
 - else
   p Log in to write a answer

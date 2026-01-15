@@ -14,8 +14,10 @@ feature 'User can delete his question', %q(
       sign_in(author)
       visit question_path(question)
 
-      accept_confirm do
-        click_on 'Delete question'
+      within ".question[data-question-id='#{question.id}']" do
+        accept_confirm do
+          click_on 'Delete question'
+        end
       end
 
       expect(page).to have_content 'Your question was succesfully deleted'
