@@ -1,8 +1,13 @@
-= render 'shared/errors', resource: @question
+= form_with model: @question, data: { remote: true}, class: 'new-question' do |f|
+  p
+    .field
+      = f.label :title
+      = f.text_field :title
+      .error-title
+  p
+    .field
+      = f.label :body
+      = f.text_area :body
+      .error-body
 
-= form_with model: @question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Ask'
+  p= f.submit 'Ask'

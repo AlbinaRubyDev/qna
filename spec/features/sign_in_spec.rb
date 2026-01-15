@@ -9,7 +9,7 @@ feature 'User can sign in', %q(
 
   background { visit new_user_session_path }
 
-  scenario 'Registred user tries to sign in' do
+  scenario 'Registred user tries to sign in', js: true do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_on 'Log in'
@@ -17,9 +17,9 @@ feature 'User can sign in', %q(
     expect(page).to have_content 'Signed in successfully.'
   end
 
-  scenario 'Unregistred user tries to sign in' do
+  scenario 'Unregistred user tries to sign in', js: true do
     fill_in 'Email', with: 'wrong@test.com'
-    fill_in 'Password', with: '12345678'
+    fill_in 'Password', with: 'с0mp!3xpa$$w0rdf0rTh3Pa$$w0rdManag3r'
     click_on 'Log in'
 
     expect(page).to have_content 'Invalid Email or password.'

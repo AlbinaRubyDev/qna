@@ -7,16 +7,16 @@ feature 'User can sign up', %q(
 ) do
   background { visit new_user_registration_path }
 
-  scenario 'Unregistred user tries to sign up' do
+  scenario 'Unregistred user tries to sign up', js: true do
     fill_in 'Email', with: 'username@test.com'
-    fill_in 'Password', with: '12345678'
-    fill_in 'Password confirmation', with: '12345678'
+    fill_in 'Password', with: 'с0mp!3xpa$$w0rdf0rTh3Pa$$w0rdManag3r'
+    fill_in 'Password confirmation', with: 'с0mp!3xpa$$w0rdf0rTh3Pa$$w0rdManag3r'
     click_on 'Sign up'
 
     expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
 
-  scenario 'Unregistred user tries to sign up but enters invalid data' do
+  scenario 'Unregistred user tries to sign up but enters invalid data', js: true do
     fill_in 'Email', with: 'username'
     fill_in 'Password', with: '123456'
     fill_in 'Password confirmation', with: '345678'
