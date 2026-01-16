@@ -7,7 +7,7 @@ feature 'User can follow links', %q(
 ) do
   given!(:question) { create(:question) }
 
-  scenario 'open a question from the question list' do
+  scenario 'open a question from the question list', js: true do
     visit questions_path
     expect(page).to have_content question.title
 
@@ -17,7 +17,7 @@ feature 'User can follow links', %q(
     expect(page).to have_content question.body
   end
 
-  scenario 'from a question go to the list of questions' do
+  scenario 'from a question go to the list of questions', js: true do
     questions = create_list(:question, 3)
 
     visit question_path(question)
