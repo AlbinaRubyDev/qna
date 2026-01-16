@@ -34,4 +34,22 @@ feature 'User can delete his question', %q(
 
     expect(page).to_not have_link 'Delete question'
   end
+
+  scenario "remove your question from the list" do
+    sign_in(author)
+    visit questions_path
+
+    click_on 'Delete question'
+
+    expect(page).to have_content 'Your question was succesfully deleted'
+    expect(page).to_not have_content question.title
+  end
+
+  scenario "delete someone else's question from the list" do
+    sign_in(user)
+    visit questions_path
+
+    expect(page).to have_content question.title
+    expect(page).to_not have_link 'Delete question'
+  end
 end
