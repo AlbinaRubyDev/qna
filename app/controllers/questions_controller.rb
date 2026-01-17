@@ -18,28 +18,20 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.questions.build(question_params)
+    @question = current_user.questions.new(question_params)
 
-    respond_to do |format|
-      if @question.save
-        format.html { redirect_to @question }
-        format.js
-      else
-        format.html { render :new }
-        format.js
-      end
+    if @question.save
+      redirect_to @question, notice: "Your question was succesfully created"
+    else
+      render :new
     end
   end
 
   def update
-    respond_to do |format|
-      if @question.update(question_params)
-        format.html { redirect_to @question }
-        format.js
-      else
-        format.html { render :edit }
-        format.js
-      end
+    if @question.update(question_params)
+      redirect_to @question
+    else
+      render :edit
     end
   end
 
