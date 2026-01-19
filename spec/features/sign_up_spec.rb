@@ -17,10 +17,12 @@ feature 'User can sign up', %q(
   end
 
   scenario 'Unregistred user tries to sign up but enters invalid data', js: true do
-    fill_in 'Email', with: 'username'
-    fill_in 'Password', with: '123456'
-    fill_in 'Password confirmation', with: '345678'
-    click_on 'Sign up'
+    page.execute_script <<~JS
+    document.querySelector('input[name="user[email]"]').value = 'username';
+    document.querySelector('input[name="user[password]"]').value = '123456';
+    document.querySelector('input[name="user[password_confirmation]"]').value = '345678';
+    document.querySelector('form').submit();
+  JS
 
     expect(page).to have_content 'Email is invalid'
     expect(page).to have_content "Password confirmation doesn't match"
