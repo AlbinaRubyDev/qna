@@ -16,6 +16,7 @@ feature 'User can create answer', %q(
     end
 
     scenario 'writes a answer', js: true do
+      save_and_open_page
       fill_in 'Body', with: 'answer text text text'
       click_on 'Submit answer'
 

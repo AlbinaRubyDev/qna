@@ -14,6 +14,8 @@ feature 'User can delete his question', %q(
       sign_in(author)
       visit question_path(question)
 
+      expect(page).to have_link 'Delete question'
+
       within ".question" do
         accept_confirm do
           click_on 'Delete question'
@@ -35,6 +37,8 @@ feature 'User can delete his question', %q(
     scenario "remove your question from the list", js: true do
       sign_in(author)
       visit questions_path
+
+      expect(page).to have_link 'Delete question'
 
       accept_confirm do
         click_on 'Delete question'

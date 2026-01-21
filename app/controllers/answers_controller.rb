@@ -3,13 +3,16 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: [ :destroy ]
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.build(answer_params)
     @answer.author = current_user
 
     if @answer.save
-      redirect_to @question
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @question }
+      end
     else
-      render "questions/show"
+      render "questions/show", status: :unprocessable_entity
     end
   end
 

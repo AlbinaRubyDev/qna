@@ -7,5 +7,5 @@
     - if current_user&.id == question.author_id
         = link_to 'Delete question', 
                    question_path(question), 
-                   method: :delete, 
-                   data: { confirm: 'Are you sure?' }
+                   data: { turbo_method: :delete, 
+                   turbo_confirm: 'Are you sure?' }

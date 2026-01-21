@@ -1,0 +1,8 @@
+turbo-frame id=dom_id(answer) 
+  p = answer.body
+
+  - if answer.persisted? && current_user&.id == answer.author_id
+    = link_to 'Delete answer',
+              question_answer_path(question, answer),
+              data: { turbo_method: :delete, 
+                      turbo_confirm: 'Are you sure?' }
