@@ -8,5 +8,5 @@ turbo-frame id=dom_id(answer)
                       turbo_confirm: 'Are you sure?' }
 
   - if current_user&.id == question.author_id
-    = link_to 'This is best answer'
-
+    = link_to 'This is best answer', best_answer_question_answer_path(answer, question_id: question.id),
+      data: {turbo_method: :patch}

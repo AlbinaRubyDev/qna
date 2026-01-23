@@ -15,7 +15,7 @@ feature 'Тут написать про выбор лучшего ответа',
     expect(page).to have_link 'This is best answer'
     click_on 'This is best answer'
 
-    expect(page).to have_content "This answer was chosen as the best."
+    expect(page).to have_content "This answer was chosen as the best"
   end
 
   scenario 'Other user cannot select an answer as the best one', js: true do

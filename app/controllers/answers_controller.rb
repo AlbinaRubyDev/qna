@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: [ :create, :destroy ]
-  before_action :find_answer, only: [ :destroy ]
+  before_action :find_question, only: [ :create, :destroy, :best_answer ]
+  before_action :find_answer, only: [ :destroy, :best_answer ]
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -44,6 +44,26 @@ class AnswersController < ApplicationController
       end
     else
       redirect_to question_path(@question)
+    end
+  end
+
+
+  def best_answer
+    if @question.author_id == current_user.id
+      @question.mark_as_best(@answer)
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update(
+              "flash",
+              partial: "shared/turbo_flash",
+              locals: { notice: "This answer was chosen as the best" }
+            )
+          ]
+        end
+        format.html { redirect_to @question }
+      end
     end
   end
 
