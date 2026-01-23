@@ -6,3 +6,7 @@ turbo-frame id=dom_id(answer)
               question_answer_path(question, answer),
               data: { turbo_method: :delete, 
                       turbo_confirm: 'Are you sure?' }
+
+  - if current_user&.id == question.author_id
+    = link_to 'This is best answer'
+
