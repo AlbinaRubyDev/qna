@@ -16,10 +16,8 @@ feature 'User can delete his question', %q(
 
       expect(page).to have_link 'Delete question'
 
-      within ".question" do
-        accept_confirm do
-          click_on 'Delete question'
-        end
+      accept_confirm do
+        click_on 'Delete question'
       end
 
       expect(page).to have_content 'Your question was succesfully deleted'

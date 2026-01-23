@@ -10,9 +10,14 @@
               data: { turbo_method: :delete, 
                       turbo_confirm: 'Are you sure?' }
 
-h2 Answers:
+- if @best_answer.present?
+  turbo-frame#best_answer
+    h2 Best answer:
+    = render 'answers/answer', answer: @best_answer, question: @question
+
+h3 Other answers:
 turbo-frame#answers
-  - @question.answers.each do |answer|
+  - @other_answers.each do |answer|
     = render 'answers/answer', answer: answer, question: @question
 
 - if user_signed_in?

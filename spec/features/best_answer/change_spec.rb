@@ -3,12 +3,18 @@ require 'rails_helper'
 feature 'Тут написать про выбор другого ответа', %q(
   Сюда сочинить текст
 ) do
-  # автор вопроса может
-  # и успешно выбирает при том что уже выбран друго ответ
-  # предыдущий лучший перестал им быть
+  given(:author) { create(:user) }
+  given(:user) { create(:user) }
+  given!(:question) { create(:question, author: author) }
+  given!(:answer) { create(:answer, question: question) }
 
-  # другой юзер не может
-  # не видит кнопки или что там будет
+  scenario 'Перевыбор'# , js: true do
+  # sign_in(author)
+  # visit question_path(question)
 
-  # не залогиненный тоже не может
+  # expect(page).to have_link 'This is best answer'
+  # click_on 'This is best answer'
+
+  # expect(page).to have_content "This answer was chosen as the best"
+  # end
 end

@@ -27,6 +27,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
+    if @answer.this_best
+      @question.remove_best_answer(@answer)
+    end
+
     if @answer.author_id == current_user.id
       @answer.destroy
 
@@ -46,7 +50,6 @@ class AnswersController < ApplicationController
       redirect_to question_path(@question)
     end
   end
-
 
   def best_answer
     if @question.author_id == current_user.id

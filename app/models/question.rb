@@ -9,4 +9,8 @@ class Question < ApplicationRecord
   def mark_as_best(answer)
     update(best_answer_id: answer.id)
   end
+
+  def remove_best_answer(answer)
+    update(best_answer_id: nil)
+  end
 end

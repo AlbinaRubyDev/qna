@@ -12,8 +12,8 @@ feature 'Тут написать про выбор лучшего ответа',
     sign_in(author)
     visit question_path(question)
 
-    expect(page).to have_link 'This is best answer'
-    click_on 'This is best answer'
+    expect(page).to have_link 'Choose the best answer'
+    click_on 'Choose the best answer'
 
     expect(page).to have_content "This answer was chosen as the best"
   end

@@ -1,12 +1,13 @@
 turbo-frame id=dom_id(answer) 
   p = answer.body
 
-  - if answer.persisted? && current_user&.id == answer.author_id
-    = link_to 'Delete answer',
-              question_answer_path(question, answer),
-              data: { turbo_method: :delete, 
-                      turbo_confirm: 'Are you sure?' }
-
-  - if current_user&.id == question.author_id
-    = link_to 'This is best answer', best_answer_question_answer_path(answer, question_id: question.id),
-      data: {turbo_method: :patch}
+  p
+    - if answer.persisted? && current_user&.id == answer.author_id
+      = link_to 'Delete answer',
+                question_answer_path(question, answer),
+                data: { turbo_method: :delete, 
+                        turbo_confirm: 'Are you sure?' }
+    |  | 
+    - if current_user&.id == question.author_id
+      = link_to 'Choose the best answer', best_answer_question_answer_path(answer, question_id: question.id),
+        data: {turbo_method: :patch}
