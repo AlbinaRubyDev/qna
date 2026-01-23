@@ -12,13 +12,11 @@
 
 - if @best_answer.present?
   turbo-frame#best_answer
-    h2 Best answer:
-    = render 'answers/answer', answer: @best_answer, question: @question
+    = render 'answers/best_answer', answer: @best_answer, question: @question
 
 h3 Other answers:
 turbo-frame#answers
-  - @other_answers.each do |answer|
-    = render 'answers/answer', answer: answer, question: @question
+  = render 'answers/answers', answers: @other_answers, question: @question
 
 - if user_signed_in?
   turbo-frame#new_answer

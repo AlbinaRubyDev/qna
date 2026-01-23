@@ -10,7 +10,7 @@ class Question < ApplicationRecord
     update(best_answer_id: answer.id)
   end
 
-  def remove_best_answer(answer)
+  def remove_mark_best(answer)
     update(best_answer_id: nil)
   end
 end

@@ -28,7 +28,7 @@ class AnswersController < ApplicationController
 
   def destroy
     if @answer.this_best
-      @question.remove_best_answer(@answer)
+      @question.remove_mark_best(@answer)
     end
 
     if @answer.author_id == current_user.id
@@ -52,21 +52,30 @@ class AnswersController < ApplicationController
   end
 
   def best_answer
-    if @question.author_id == current_user.id
-      @question.mark_as_best(@answer)
+    return unless @question.author_id == current_user.id
 
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.update(
-              "flash",
-              partial: "shared/turbo_flash",
-              locals: { notice: "This answer was chosen as the best" }
-            )
-          ]
-        end
-        format.html { redirect_to @question }
+    @question.mark_as_best(@answer)
+
+    @best_answer = @question.best_answer
+    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update(
+            "best_answer",
+            partial: "answers/best_answer",
+            locals: { answer: @best_answer, question: @question }),
+          turbo_stream.update(
+            "answers",
+            partial: "answers/answers",
+            locals: { answers: @other_answers, question: @question }),
+          turbo_stream.update(
+            "flash",
+            partial: "shared/turbo_flash",
+            locals: { notice: "This answer was chosen as the best" }) ]
       end
+      format.html { redirect_to @question }
     end
   end
 
