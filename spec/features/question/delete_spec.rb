@@ -5,8 +5,8 @@ feature 'User can delete his question', %q(
   As an authenticated user
   I'd like to be able to delete your question
 ) do
-  given(:author) { create(:user) }
-  given(:user) { create(:user) }
+  given!(:author) { create(:user) }
+  given!(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
 
   describe 'Authenticated user' do

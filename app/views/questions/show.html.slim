@@ -16,10 +16,7 @@ turbo-frame#answers
     = render 'answers/answer', answer: answer, question: @question
 
 - if user_signed_in?
-  = render 'shared/errors', resource: @answer
-
   turbo-frame#new_answer
     = render 'answers/form', answer: @answer, question: @question
-
 - else
    p Log in to write a answer

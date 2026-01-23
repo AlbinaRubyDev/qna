@@ -18,10 +18,18 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.questions.new(question_params)
+    @question = current_user.questions.build(question_params)
 
     if @question.save
-      redirect_to @question, notice: "Your question was succesfully created"
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "new_question",
+            partial: "shared/redirect",
+            locals: { url: question_path(@question) })
+        end
+        format.html { redirect_to @question }
+      end
     else
       render :new
     end

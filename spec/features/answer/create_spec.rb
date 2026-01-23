@@ -16,19 +16,20 @@ feature 'User can create answer', %q(
     end
 
     scenario 'writes a answer', js: true do
-      save_and_open_page
       fill_in 'Body', with: 'answer text text text'
       click_on 'Submit answer'
 
       expect(current_path).to eq question_path(question)
       expect(page).to have_content question.title
       expect(page).to have_content question.body
-      within '.answers' do
+
+      within 'turbo-frame#answers' do
         expect(page).to have_content 'answer text text text'
       end
     end
 
      scenario 'writes a answer with errors', js: true do
+      save_and_open_page
       click_on 'Submit answer'
 
       expect(page).to have_content "Body can't be blank"

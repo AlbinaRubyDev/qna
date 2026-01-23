@@ -13,7 +13,6 @@ feature 'User can see links', %q(
 
     visit root_path
 
-    save_and_open_page
     expect(page).to have_link 'Log out'
     expect(page).to_not have_link 'Sign in'
 

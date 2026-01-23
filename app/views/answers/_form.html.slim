@@ -1,3 +1,6 @@
+- if answer.errors.present?
+   = render 'shared/errors', resource: answer
+
 = form_with model: [question, answer], data: {turbo_frame: "new_answer"} do |f|
   = f.label :body
   = f.text_area :body

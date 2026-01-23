@@ -16,8 +16,8 @@
   </head>
   <body>
     <%= render 'shared/navigation' %>
-    <%= render 'shared/flash' %>
-
+    <turbo-frame id="flash">
+    </turbo-frame>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>

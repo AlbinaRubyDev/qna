@@ -15,14 +15,16 @@ feature 'User can delete his answer', %q(
       sign_in(author)
       visit question_path(question)
 
-      within ".answers" do
+      within "turbo-frame#answers" do
         expect(page).to have_content answer.body
 
+        # save_and_open_page
         accept_confirm do
           click_on 'Delete answer'
         end
       end
 
+      # save_and_open_page
       expect(page).to have_content 'Your answer was succesfully deleted'
       expect(page).to have_content question.title
       expect(page).to have_content question.body

@@ -6,20 +6,42 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     @answer.author = current_user
 
-    if @answer.save
-      respond_to do |format|
+    respond_to do |format|
+      if @answer.save
         format.turbo_stream
         format.html { redirect_to @question }
+      else
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update(
+            "new_answer",
+            partial: "answers/form",
+            locals: { answer: @answer, question: @question }),
+            status: :unprocessable_entity
+        end
+
+        format.html do
+          render "questions/show", status: :unprocessable_entity
+        end
       end
-    else
-      render "questions/show", status: :unprocessable_entity
     end
   end
 
   def destroy
     if @answer.author_id == current_user.id
       @answer.destroy
-      redirect_to question_path(@question), notice: "Your answer was succesfully deleted"
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.remove(@answer),
+            turbo_stream.update(
+              "flash",
+              partial: "shared/turbo_flash",
+              locals: { notice: "Your answer was succesfully deleted" }) ]
+        end
+
+        format.html { redirect_to @question }
+      end
     else
       redirect_to question_path(@question)
     end
