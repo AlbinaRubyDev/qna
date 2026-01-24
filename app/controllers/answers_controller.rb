@@ -28,7 +28,7 @@ class AnswersController < ApplicationController
 
   def destroy
     if @answer.this_best
-      @question.remove_mark_best(@answer)
+      @question.remove_mark_best
     end
 
     if @answer.author_id == current_user.id

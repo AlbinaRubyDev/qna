@@ -39,14 +39,24 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      redirect_to @question
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            @question,
+            partial: "questions/question",
+            locals: { question: @question })
+        end
+        format.html { redirect_to @question }
+      end
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @question.author_id == current_user.id
+      @question.remove_mark_best if @question.best_answer.present?
+
       @question.destroy
       redirect_to questions_path, notice: "Your question was succesfully deleted"
     else

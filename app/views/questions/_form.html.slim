@@ -1,16 +1,16 @@
-= form_with model: @question do |f|
+= form_with model: resource do |f|
   p
     = f.label :title
     = f.text_field :title
-    - if @question.errors[:title].present?
+    - if resource.errors[:title].present?
       .error-title
-        = @question.errors.full_messages_for(:title).join(", ")
+        = resource.errors.full_messages_for(:title).join(", ")
   p
-    = f.label :body
+    = f.label :body, "Your question"
     = f.text_area :body
-    .error-body
-    - if @question.errors[:body].present?
+    - if resource.errors[:body].present?
       .error-body
-        = @question.errors.full_messages_for(:body).join(", ")
+        = resource.errors.full_messages_for(:body).join(", ")
 
-  p= f.submit 'Ask'
+  p= f.submit resource.persisted? ? 'Save' : 'Ask'
+
