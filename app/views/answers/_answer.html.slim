@@ -7,6 +7,10 @@ turbo-frame id=dom_id(answer)
                 question_answer_path(question, answer),
                 data: { turbo_method: :delete, 
                         turbo_confirm: 'Are you sure?' }
+      |  | 
+      = link_to 'Edit', 
+                edit_question_answer_path(question, answer), 
+                data: { turbo_frame: "answer"}
     |  | 
     - if current_user&.id == question.author_id
       = link_to 'Choose the best answer', best_answer_question_answer_path(answer, question_id: question.id),

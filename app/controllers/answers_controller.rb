@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: [ :create, :destroy, :best_answer ]
-  before_action :find_answer, only: [ :destroy, :best_answer ]
+  before_action :find_question, only: [ :create, :edit, :update, :destroy, :best_answer ]
+  before_action :find_answer, only: [ :edit, :update, :destroy, :best_answer ]
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -24,6 +24,28 @@ class AnswersController < ApplicationController
         end
       end
     end
+  end
+
+  def update
+    return unless @answer.author_id == current_user.id
+
+    if @answer.update(answer_params)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            @answer,
+            partial: "answers/answer",
+            locals: { answer: @answer, question: @question }
+          )
+        end
+        format.html { redirect_to @question }
+      end
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def edit
   end
 
   def destroy

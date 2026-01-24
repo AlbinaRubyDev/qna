@@ -12,6 +12,6 @@ turbo-frame#answers
 
 - if user_signed_in?
   turbo-frame#new_answer
-    = render 'answers/form', answer: @answer, question: @question
+    = render 'answers/form', answer: @answer, question: @question, frame_id: "new_answer"
 - else
    p Log in to write a answer

@@ -1,7 +1,9 @@
+- frame_id = local_assigns[:frame_id] || "new_answer"
+
 - if answer.errors.present?
    = render 'shared/errors', resource: answer
 
-= form_with model: [question, answer], data: {turbo_frame: "new_answer"} do |f|
-  = f.label :body
+= form_with model: [question, answer], data: {turbo_frame: frame_id } do |f|
+  = f.label :body, answer.persisted? ? 'Your answer' : 'Body'
   = f.text_area :body
-  = f.submit 'Submit answer'
+  = f.submit answer.persisted? ? 'Save' : 'Submit answer'
