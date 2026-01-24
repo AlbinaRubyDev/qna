@@ -10,10 +10,12 @@ feature 'User can delete his best answer', %q(
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, author: author) }
 
+  before do
+    question.mark_as_best(answer)
+  end
+
   describe 'Authenticated user' do
     scenario 'tries to delete your answer', js: true do
-      question.mark_as_best(answer)
-
       sign_in(author)
       visit question_path(question)
 

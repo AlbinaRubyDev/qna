@@ -1,7 +1,9 @@
 require 'rails_helper'
 
-feature 'Тут написать про выбор другого ответа', %q(
-  Сюда сочинить текст
+feature 'The author of the question can re-select the best answer', %q(
+  To mark the best answer
+  As the author of the question
+  I would like to be able to re-select the best answer
 ) do
   given(:author) { create(:user) }
   given(:user) { create(:user) }
@@ -9,7 +11,7 @@ feature 'Тут написать про выбор другого ответа',
   given!(:answer1) { create(:answer, question: question) }
   given!(:answer2) { create(:answer, question: question) }
 
-  scenario 'Перевыбор', js: true do
+  scenario 're-select the best answer', js: true do
     question.mark_as_best(answer2)
 
     sign_in(author)

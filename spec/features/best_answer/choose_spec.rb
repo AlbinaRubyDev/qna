@@ -1,7 +1,9 @@
 require 'rails_helper'
 
-feature 'Тут написать про выбор лучшего ответа', %q(
-  Сюда сочинить текст
+feature 'The author of the question can mark the answer as the best', %q(
+  To mark the best answer
+  As the author of the question
+  I would like to be able to choose the best answer
 ) do
   given(:author) { create(:user) }
   given(:user) { create(:user) }
