@@ -5,10 +5,6 @@ class Answer < ApplicationRecord
   validates :body, presence: true
 
   def this_best
-    if question.best_answer_id == self.id
-      true
-    else
-      false
-    end
+    question.best_answer_id == self.id
   end
 end

@@ -12,6 +12,6 @@ turbo-frame id=dom_id(answer)
                 edit_question_answer_path(question, answer), 
                 data: { turbo_frame: "answer"}
     |  | 
-    - if current_user&.id == question.author_id
+    - if current_user&.author_of?(question)
       = link_to 'Choose the best answer', best_answer_question_answer_path(answer, question_id: question.id),
         data: {turbo_method: :patch}

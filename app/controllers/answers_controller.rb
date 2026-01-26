@@ -74,7 +74,7 @@ class AnswersController < ApplicationController
   end
 
   def best_answer
-    return unless @question.author_id == current_user.id
+    return unless current_user&.author_of?(@question)
 
     @question.mark_as_best(@answer)
 
