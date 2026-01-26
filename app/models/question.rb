@@ -4,6 +4,8 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
 
+  has_one_attached :file
+
   validates :title, :body, presence: true
 
   def mark_as_best(answer)

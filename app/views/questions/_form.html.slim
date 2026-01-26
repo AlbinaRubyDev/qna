@@ -11,6 +11,9 @@
     - if resource.errors[:body].present?
       .error-body
         = resource.errors.full_messages_for(:body).join(", ")
+  p 
+    = f.label :file 
+    = f.file_field :file
 
   p= f.submit resource.persisted? ? 'Save' : 'Ask'
 
