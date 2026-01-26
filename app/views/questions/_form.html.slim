@@ -1,0 +1,16 @@
+= form_with model: resource do |f|
+  p
+    = f.label :title
+    = f.text_field :title
+    - if resource.errors[:title].present?
+      .error-title
+        = resource.errors.full_messages_for(:title).join(", ")
+  p
+    = f.label :body, "Your question"
+    = f.text_area :body
+    - if resource.errors[:body].present?
+      .error-body
+        = resource.errors.full_messages_for(:body).join(", ")
+
+  p= f.submit resource.persisted? ? 'Save' : 'Ask'
+

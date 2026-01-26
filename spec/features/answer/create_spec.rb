@@ -15,26 +15,29 @@ feature 'User can create answer', %q(
       visit question_path(question)
     end
 
-    scenario 'writes a answer' do
-      fill_in 'Body', with: 'answer text text text'
-      click_on 'Submit answer'
+    scenario 'writes a answer', js: true do
+      within 'turbo-frame#new_answer' do
+        fill_in 'Body', with: 'answer text text text'
+        click_on 'Submit answer'
+      end
 
       expect(current_path).to eq question_path(question)
       expect(page).to have_content question.title
       expect(page).to have_content question.body
-      within '.answers' do
+
+      within 'turbo-frame#answers' do
         expect(page).to have_content 'answer text text text'
       end
     end
 
-     scenario 'writes a answer with errors' do
+     scenario 'writes a answer with errors', js: true do
       click_on 'Submit answer'
 
       expect(page).to have_content "Body can't be blank"
      end
   end
 
-  scenario 'Unauthenticated user tries to write a answer' do
+  scenario 'Unauthenticated user tries to write a answer', js: true do
     visit question_path(question)
 
     expect(page).to_not have_link 'Submit answer'

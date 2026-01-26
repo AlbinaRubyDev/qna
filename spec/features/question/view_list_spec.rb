@@ -7,12 +7,12 @@ feature 'User can view list of questions', %q(
 ) do
   given!(:questions) { create_list(:question, 3) }
 
-  scenario 'Authenticated user view list of questions' do
+  scenario 'Authenticated user view list of questions', js: true do
     user = create(:user)
     sign_in(user)
   end
 
-  scenario 'Unauthenticated user view list of questions' do
+  scenario 'Unauthenticated user view list of questions', js: true do
   end
 
   after do

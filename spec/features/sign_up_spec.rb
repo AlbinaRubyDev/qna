@@ -7,7 +7,7 @@ feature 'User can sign up', %q(
 ) do
   background { visit new_user_registration_path }
 
-  scenario 'Unregistred user tries to sign up' do
+  scenario 'Unregistred user tries to sign up', js: true do
     fill_in 'Email', with: 'username@test.com'
     fill_in 'Password', with: '12345678'
     fill_in 'Password confirmation', with: '12345678'
@@ -16,11 +16,13 @@ feature 'User can sign up', %q(
     expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
 
-  scenario 'Unregistred user tries to sign up but enters invalid data' do
-    fill_in 'Email', with: 'username'
-    fill_in 'Password', with: '123456'
-    fill_in 'Password confirmation', with: '345678'
-    click_on 'Sign up'
+  scenario 'Unregistred user tries to sign up but enters invalid data', js: true do
+    page.execute_script <<~JS
+    document.querySelector('input[name="user[email]"]').value = 'username';
+    document.querySelector('input[name="user[password]"]').value = '123456';
+    document.querySelector('input[name="user[password_confirmation]"]').value = '345678';
+    document.querySelector('form').submit();
+  JS
 
     expect(page).to have_content 'Email is invalid'
     expect(page).to have_content "Password confirmation doesn't match"

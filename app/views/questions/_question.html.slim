@@ -1,0 +1,16 @@
+turbo-frame id=dom_id(question)
+  .question
+    h1 = @question.title
+    p = @question.body
+
+    p
+      - if current_user&.author_of?(@question)
+        = link_to 'Edit question', 
+                  edit_question_path(question), 
+                  data: { turbo_frame: "question"}
+        |  | 
+        = link_to 'Delete question', 
+                  question_path(question), 
+                  data: { turbo_method: :delete, 
+                          turbo_confirm: 'Are you sure?',
+                          turbo_frame: '_top' }

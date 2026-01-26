@@ -1,25 +1,17 @@
-h1 = @question.title
-p = @question.body
+= link_to 'All questions', questions_path
 
-h2 Answers:
-.answers
-  - @question.answers.each do |answer|
-    p = answer.body
-    - if answer.persisted? && current_user&.id == answer.author_id
-      = link_to 'Delete answer',
-                question_answer_path(@question, answer),
-                method: :delete,
-                data: { confirm: 'Are you sure?' }
+= render 'questions/question', question: @question
+
+- if @best_answer.present?
+  turbo-frame#best_answer
+    = render 'answers/best_answer', answer: @best_answer, question: @question
+
+h3 Other answers:
+turbo-frame#answers
+  = render 'answers/answers', answers: @other_answers, question: @question
 
 - if user_signed_in?
-  = render 'shared/errors', resource: @answer
-  = form_with model: [@question, @answer], local: true do |f|
-    = f.label :body
-    = f.text_area :body
-    = f.submit 'Submit answer'
-
-  - if current_user == @question.author
-    = link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
-
+  turbo-frame#new_answer
+    = render 'answers/form', answer: @answer, question: @question, frame_id: "new_answer"
 - else
-  p Log in to write a answer
+   p Log in to write a answer

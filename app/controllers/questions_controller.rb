@@ -7,7 +7,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.new
+    @answer = Answer.new(question: @question)
+    @best_answer = @question.best_answer
+    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
 
   def new
@@ -18,10 +20,18 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = current_user.questions.new(question_params)
+    @question = current_user.questions.build(question_params)
 
     if @question.save
-      redirect_to @question, notice: "Your question was succesfully created"
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "new_question",
+            partial: "shared/redirect",
+            locals: { url: question_path(@question) })
+        end
+        format.html { redirect_to @question }
+      end
     else
       render :new
     end
@@ -29,14 +39,24 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      redirect_to @question
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            @question,
+            partial: "questions/question",
+            locals: { question: @question })
+        end
+        format.html { redirect_to @question }
+      end
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if @question.author_id == current_user.id
+    if current_user&.author_of?(@question)
+      @question.remove_mark_best if @question.best_answer.present?
+
       @question.destroy
       redirect_to questions_path, notice: "Your question was succesfully deleted"
     else
