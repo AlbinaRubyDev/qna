@@ -30,11 +30,22 @@ feature 'User can create answer', %q(
       end
     end
 
-     scenario 'writes a answer with errors', js: true do
+    scenario 'writes a answer with errors', js: true do
       click_on 'Submit answer'
 
       expect(page).to have_content "Body can't be blank"
-     end
+    end
+
+    scenario 'ask a answer with attached file' do
+      within 'turbo-frame#new_answer' do
+        fill_in 'Body', with: 'answer text text text'
+
+        attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+        click_on 'Submit answer'
+      end
+
+      expect(page).to have_link 'rails_helper.rb'
+    end
   end
 
   scenario 'Unauthenticated user tries to write a answer', js: true do
