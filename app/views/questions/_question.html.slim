@@ -1,13 +1,13 @@
 turbo-frame id=dom_id(question)
   .question
-    h1 = @question.title
-    p = @question.body
+    h1 = question.title
+    p = question.body
 
     - if question.files.attached?
       - question.files.each do |file|
         p= link_to file.filename.to_s, url_for(file)
     p
-      - if current_user&.author_of?(@question)
+      - if current_user&.author_of?(question)
         = link_to 'Edit question', 
                   edit_question_path(question), 
                   data: { turbo_frame: "question"}

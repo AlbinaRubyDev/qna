@@ -19,7 +19,7 @@ RSpec.describe Answer, type: :model do
     expect(answer2.this_best).to eq(true)
   end
 
-  it 'have one attached file' do
-    expect(Answer.new.file).to be_an_instance_of(ActiveStorage::Attached::One)
+  it 'have many attached files' do
+    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 end

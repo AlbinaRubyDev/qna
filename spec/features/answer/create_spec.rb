@@ -40,11 +40,12 @@ feature 'User can create answer', %q(
       within 'turbo-frame#new_answer' do
         fill_in 'Body', with: 'answer text text text'
 
-        attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+        attach_file 'File', [ "#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb" ]
         click_on 'Submit answer'
       end
 
       expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 
