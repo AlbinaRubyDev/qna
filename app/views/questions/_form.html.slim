@@ -13,7 +13,7 @@
         = resource.errors.full_messages_for(:body).join(", ")
   p 
     = f.label :files 
-    = f.file_field :files, multiple: true
+    = f.file_field :files, multiple: true, direct_upload: true
 
   p= f.submit resource.persisted? ? 'Save' : 'Ask'
 

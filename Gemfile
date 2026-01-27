@@ -47,6 +47,8 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "rspec-rails", "~> 8.0.0"
   gem "factory_bot_rails"
+  gem "aws-sdk-s3", require: false
+  gem "dotenv-rails"
 end
 
 group :development do
