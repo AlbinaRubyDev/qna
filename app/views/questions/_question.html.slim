@@ -4,8 +4,16 @@ turbo-frame id=dom_id(question)
     p = question.body
 
     - if question.files.attached?
-      - question.files.each do |file|
-        p= link_to file.filename.to_s, url_for(file)
+      ul
+        - question.files.each do |file|
+          li id=dom_id(file)
+            = link_to file.filename.to_s, url_for(file)
+            |  | 
+            - if current_user&.author_of?(question)
+              = link_to 'Delete file',
+                destroy_file_question_path(question, file_id: file.id),
+                data: { turbo_method: :delete, 
+                        turbo_confirm: 'Are you sure?' }
     p
       - if current_user&.author_of?(question)
         = link_to 'Edit question', 
