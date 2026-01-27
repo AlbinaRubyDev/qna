@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
     resources :answers do
       patch :best_answer, on: :member
+      delete :destroy_file, on: :member
     end
   end
 

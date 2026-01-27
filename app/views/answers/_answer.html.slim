@@ -2,8 +2,16 @@ turbo-frame id=dom_id(answer)
   p = answer.body
 
   - if answer.files.attached?
+    ul
       - answer.files.each do |file|
-        p= link_to file.filename.to_s, url_for(file)
+        li id=dom_id(file)
+          = link_to file.filename.to_s, url_for(file)
+          |  | 
+          - if current_user&.author_of?(answer)
+            = link_to 'Delete file',
+              destroy_file_question_answer_path(question, answer, file_id: file.id),
+              data: { turbo_method: :delete, 
+                      turbo_confirm: 'Are you sure?' }
   p
     - if answer.persisted? && current_user&.id == answer.author_id
       = link_to 'Delete answer',

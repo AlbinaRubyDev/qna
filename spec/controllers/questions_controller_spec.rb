@@ -166,6 +166,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy_file, params: { id: question, file_id: file.id },
                 format: :turbo_stream }.to change { question.files.count }.by(-1)
       end
+    end
 
     context 'another user cannot delete the file' do
       before { login(user) }
@@ -174,7 +175,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy_file, params: { id: question, file_id: file.id  },
                  format: :turbo_stream }.to_not change { question.files.count }
       end
-    end
     end
   end
 end

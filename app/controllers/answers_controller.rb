@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: [ :create, :edit, :update, :destroy, :best_answer ]
-  before_action :find_answer, only: [ :edit, :update, :destroy, :best_answer ]
+  before_action :find_answer, only: [ :edit, :update, :destroy, :destroy_file, :best_answer ]
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -70,6 +70,18 @@ class AnswersController < ApplicationController
       end
     else
       redirect_to question_path(@question)
+    end
+  end
+
+  def destroy_file
+    return unless current_user&.author_of?(@answer)
+
+    @file = @answer.files.find(params[:file_id])
+    @file.purge
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @question }
     end
   end
 

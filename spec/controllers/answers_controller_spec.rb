@@ -100,6 +100,31 @@ describe 'PATCH #update' do
     end
   end
 
+  describe 'DELETE #destroy_file' do
+    let!(:author) { create(:user) }
+    let!(:question) { create(:question) }
+    let!(:answer) { create(:answer, :with_files, question: question, author: author) }
+    let(:file) { answer.files.first }
+
+    context 'author deletes file' do
+      before { login(author) }
+
+      it 'the file has been deleted' do
+        expect { delete :destroy_file, params: { id: answer, question_id: question.id, file_id: file.id },
+                format: :turbo_stream }.to change { answer.files.count }.by(-1)
+      end
+    end
+
+    context 'another user cannot delete the file' do
+      before { login(user) }
+
+      it 'the file was not deleted' do
+        expect { delete :destroy_file, params: { id: answer, question_id: question.id, file_id: file.id   },
+                 format: :turbo_stream }.to_not change { answer.files.count }
+      end
+    end
+  end
+
     describe 'PATCH #best_answer' do
       let!(:author) { create(:user) }
       let!(:user) { create(:user) }
