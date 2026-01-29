@@ -9,7 +9,7 @@ turbo-frame id=dom_id(answer)
           |  | 
           - if current_user&.author_of?(answer)
             = link_to 'Delete file',
-              destroy_file_question_answer_path(question, answer, file_id: file.id),
+              file_path(file),
               data: { turbo_method: :delete, 
                       turbo_confirm: 'Are you sure?' }
   p

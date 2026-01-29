@@ -11,7 +11,7 @@ turbo-frame id=dom_id(question)
             |  | 
             - if current_user&.author_of?(question)
               = link_to 'Delete file',
-                destroy_file_question_path(question, file_id: file.id),
+                file_path(file),
                 data: { turbo_method: :delete, 
                         turbo_confirm: 'Are you sure?' }
     p
