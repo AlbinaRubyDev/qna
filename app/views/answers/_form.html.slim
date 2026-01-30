@@ -4,6 +4,10 @@
    = render 'shared/errors', resource: answer
 
 = form_with model: [question, answer], data: {turbo_frame: frame_id } do |f|
-  = f.label :body, answer.persisted? ? 'Your answer' : 'Body'
-  = f.text_area :body
-  = f.submit answer.persisted? ? 'Save' : 'Submit answer'
+  p
+    = f.label :body, answer.persisted? ? 'Your answer' : 'Body'
+    = f.text_area :body
+  p 
+    = f.label :files 
+    = f.file_field :files, multiple: true, direct_upload: true
+  p= f.submit answer.persisted? ? 'Save' : 'Submit answer'

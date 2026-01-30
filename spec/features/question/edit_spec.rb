@@ -29,6 +29,21 @@ feature 'User can edit his question', %q(
       expect(page).to have_content 'edited question'
     end
 
+    scenario 'edits his question with attached file' do
+      sign_in(author)
+      visit question_path(question)
+
+      click_on 'Edit question'
+
+      fill_in 'Your question', with: 'edited question'
+
+      attach_file 'File',  [ "#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb" ]
+      click_on 'Save'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
     scenario 'edits his question with errors title' do
       sign_in(author)
       visit question_path(question)
@@ -52,7 +67,6 @@ feature 'User can edit his question', %q(
 
       expect(page).to have_content "Body can't be blank"
     end
-
 
     scenario "tries to edit other user's question", js: true do
       sign_in(user)
