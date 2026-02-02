@@ -25,3 +25,9 @@ turbo-frame id=dom_id(question)
                   data: { turbo_method: :delete, 
                           turbo_confirm: 'Are you sure?',
                           turbo_frame: '_top' }
+  .links
+    p Links:
+    ul
+      - @question.links.each do |link|
+        li= link_to link.name, link.url
+        
