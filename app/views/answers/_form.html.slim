@@ -10,4 +10,15 @@
   p 
     = f.label :files 
     = f.file_field :files, multiple: true, direct_upload: true
+  p Links:
+  p 
+  div data-controller="link"
+    div data-link-target="newLink"
+
+    template data-link-target="template"
+      = f.fields_for :links, Link.new, child_index: "NEW_LINK_INDEX" do |l|
+        = render "links/link", f: l
+
+    p
+        = button_tag "Add link", type: "button", data: { action: "link#add" }
   p= f.submit answer.persisted? ? 'Save' : 'Submit answer'
