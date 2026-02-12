@@ -20,9 +20,11 @@ feature 'User can edit his question', %q(
       sign_in(author)
       visit question_path(question)
 
+      expect(page).to have_link('Edit question')
       click_on 'Edit question'
 
       fill_in 'Your question', with: 'edited question'
+      
       click_on 'Save'
 
       expect(page).to_not have_content question.body
@@ -32,6 +34,8 @@ feature 'User can edit his question', %q(
     scenario 'edits his question with attached file' do
       sign_in(author)
       visit question_path(question)
+
+      expect(page).to have_link('Edit question')
 
       click_on 'Edit question'
 

@@ -15,6 +15,8 @@ feature 'User can add links to answer', %q(
 
     visit question_path(question)
 
+    expect(page).to have_css('turbo-frame#new_answer')
+
     within 'turbo-frame#new_answer' do
       fill_in 'Body', with: 'answer text text text'
 
@@ -35,6 +37,8 @@ feature 'User can add links to answer', %q(
     sign_in(user)
 
     visit question_path(question)
+
+    expect(page).to have_css('turbo-frame#new_answer')
 
     within 'turbo-frame#new_answer' do
       fill_in 'Body', with: 'answer text text text'
@@ -59,6 +63,8 @@ feature 'User can add links to answer', %q(
 
       click_on 'Submit answer'
     end
+
+    expect(page).to have_css('turbo-frame#answers')
 
     within 'turbo-frame#answers' do
       expect(page).to have_link 'My gist 1', href: gist_url

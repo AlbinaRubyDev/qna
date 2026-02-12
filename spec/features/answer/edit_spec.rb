@@ -23,6 +23,8 @@ feature 'User can edit his answer', %q(
       sign_in(author)
       visit question_path(question)
 
+      expect(page).to have_css('turbo-frame#answers')
+
       within 'turbo-frame#answers' do
         click_on 'Edit'
       end
@@ -56,6 +58,8 @@ feature 'User can edit his answer', %q(
       sign_in(author)
       visit question_path(question)
 
+      expect(page).to have_css('turbo-frame#answers')
+      
       within 'turbo-frame#answers' do
         click_on 'Edit'
       end

@@ -15,6 +15,8 @@ feature 'User can delete his answer', %q(
       sign_in(author)
       visit question_path(question)
 
+      expect(page).to have_css("turbo-frame#answer_#{answer.id}")
+
       within "turbo-frame#answer_#{answer.id}" do
         expect(page).to have_content answer.body
 

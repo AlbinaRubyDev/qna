@@ -19,6 +19,8 @@ feature 'User can delete his best answer', %q(
       sign_in(author)
       visit question_path(question)
 
+      expect(page).to have_css('turbo-frame#best_answer')
+
       within "turbo-frame#best_answer" do
         expect(page).to have_content answer.body
         expect(page).to have_link 'Delete answer'
