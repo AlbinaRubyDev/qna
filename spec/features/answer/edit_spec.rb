@@ -23,6 +23,9 @@ feature 'User can edit his answer', %q(
       sign_in(author)
       visit question_path(question)
 
+      #временно, для отладки редко выпадающей ошибки "expected to find css 'turbo-frame#answers'"
+      expect(page).to have_current_path(question_path(question), ignore_query: true)
+      
       expect(page).to have_css('turbo-frame#answers')
 
       within 'turbo-frame#answers' do

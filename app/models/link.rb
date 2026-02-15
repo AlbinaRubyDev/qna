@@ -3,4 +3,8 @@ class Link < ApplicationRecord
 
   validates :name, :url, presence: true
   validates :url, url: { no_local: true}
+
+  def gist?
+    self.url.include?('gist.github.com')
+  end
 end

@@ -21,7 +21,7 @@
 
     template data-link-target="template"
       = f.fields_for :links, Link.new, child_index: "NEW_LINK_INDEX" do |l|
-        = render "links/link", f: l
+        = render "links/form", f: l
 
     p
         = button_tag "Add link", type: "button", data: { action: "link#add" }

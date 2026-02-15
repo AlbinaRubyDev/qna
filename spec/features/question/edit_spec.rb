@@ -21,10 +21,11 @@ feature 'User can edit his question', %q(
       visit question_path(question)
 
       expect(page).to have_link('Edit question')
+      
       click_on 'Edit question'
 
       fill_in 'Your question', with: 'edited question'
-      
+
       click_on 'Save'
 
       expect(page).to_not have_content question.body

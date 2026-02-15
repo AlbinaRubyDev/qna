@@ -38,6 +38,9 @@ feature 'User can add links to answer', %q(
 
     visit question_path(question)
 
+    #временно, для отладки редко выпадающей ошибки "expected to find css 'turbo-frame#new_answer'"
+    expect(page).to have_current_path(question_path(question), ignore_query: true)
+
     expect(page).to have_css('turbo-frame#new_answer')
 
     within 'turbo-frame#new_answer' do
