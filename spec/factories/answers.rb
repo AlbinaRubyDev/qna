@@ -18,5 +18,12 @@ FactoryBot.define do
           filename: 'spec_helper.rb')
         end
     end
+
+    trait :with_links do
+      after(:create) do |answer|
+        create(:link, name: "Google", url: "https://google.com", linkable: answer)
+        create(:link, name: "Github", url: "https://github.com", linkable: answer)
+      end
+    end
   end
 end

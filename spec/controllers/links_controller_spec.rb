@@ -8,9 +8,9 @@ RSpec.describe LinksController, type: :controller do
     let!(:question) { create(:question, :with_links, author: author_question) }
     let(:link_question) { question.links.first }
 
-    #let!(:author_answer) { create(:user) }
-    #let!(:answer) { create(:answer, :with_files, question: question, author: author_answer) }
-    #let(:file_answer) { answer.files.first }
+    let!(:author_answer) { create(:user) }
+    let!(:answer) { create(:answer, :with_links, question: question, author: author_answer) }
+    let(:link_answer) { answer.links.first }
 
     context "author deletes file" do
       it "The question's attached links are being deleted" do
@@ -20,12 +20,12 @@ RSpec.describe LinksController, type: :controller do
                 format: :turbo_stream }.to change { question.links.count }.by(-1)
       end
 
-      #it "The answer's attached files are being deleted" do
-      #  login(author_answer)
+      it "The answer's attached links are being deleted" do
+        login(author_answer)
 
-      #  expect { delete :destroy, params: { id: file_answer.id },
-      #          format: :turbo_stream }.to change { answer.files.count }.by(-1)
-      #end
+        expect { delete :destroy, params: { id: link_answer.id },
+                format: :turbo_stream }.to change { answer.links.count }.by(-1)
+      end
     end
 
     context 'another user cannot delete the link' do
@@ -36,10 +36,10 @@ RSpec.describe LinksController, type: :controller do
                  format: :turbo_stream }.to_not change { question.links.count }
       end
 
-      #it "The answer's attached files are not deleted" do
-      #  expect { delete :destroy, params: { id: file_answer.id   },
-      #           format: :turbo_stream }.to_not change { answer.files.count }
-      #end
+      it "The answer's attached links are not deleted" do
+        expect { delete :destroy, params: { id: link_answer.id   },
+                 format: :turbo_stream }.to_not change { answer.links.count }
+      end
     end
   end
 end
