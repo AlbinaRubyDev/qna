@@ -8,5 +8,7 @@ Rails.application.routes.draw do
 
   resources :files, only: :destroy
 
+  resources :links, only: :destroy
+
   root to: "questions#index"
 end
