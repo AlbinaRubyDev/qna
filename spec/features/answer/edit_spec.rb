@@ -9,6 +9,7 @@ feature 'User can edit his answer', %q(
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, author: author) }
+  given(:url) { 'https://translate.google.com/' }
 
   scenario 'Unauthenticated can not edit answer' do
     visit question_path(question)
@@ -22,11 +23,6 @@ feature 'User can edit his answer', %q(
     scenario 'edits his answer', js: true do
       sign_in(author)
       visit question_path(question)
-
-      #временно, для отладки редко выпадающей ошибки "expected to find css 'turbo-frame#answers'"
-      expect(page).to have_current_path(question_path(question), ignore_query: true)
-      
-      expect(page).to have_css('turbo-frame#answers')
 
       within 'turbo-frame#answers' do
         click_on 'Edit'
@@ -55,6 +51,23 @@ feature 'User can edit his answer', %q(
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'edits his answer with attached link', js: true do
+      sign_in(author)
+      visit question_path(question)
+
+      within "turbo-frame#answer_#{answer.id}" do
+        click_on 'Edit'
+        click_on 'Add link'
+
+        fill_in 'Link name', with: 'My url edit'
+        fill_in 'Url', with: url
+
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'My url edit', href: url
     end
 
     scenario 'edits his answer with errors' do

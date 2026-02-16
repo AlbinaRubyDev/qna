@@ -73,14 +73,19 @@ feature 'User can add links to question', %q(
 
     click_on 'Ask'
 
-    expect(page).to have_content 'Hello, World!'
+    Capybara.using_wait_time(10) do
+      expect(page).to have_content 'Hello, World!'
+    end
   end
 
   scenario 'User adds links to a gist when asks question', js: true do
     sign_in(user)
     visit new_question_path
 
-    fill_in 'Title', with: 'Test question'
+    Capybara.using_wait_time(20) do
+      fill_in 'Title', with: 'Test question'
+    end
+
     fill_in 'Your question', with: 'text text text'
 
     click_on 'Add link'
@@ -103,7 +108,9 @@ feature 'User can add links to question', %q(
 
     click_on 'Ask'
 
-    expect(page).to have_content 'Hello, World!'
-    expect(page).to have_content 'gist for features test'
+    Capybara.using_wait_time(20) do
+      expect(page).to have_content 'Hello, World!'
+      expect(page).to have_content 'gist for features test'
+    end
   end
 end

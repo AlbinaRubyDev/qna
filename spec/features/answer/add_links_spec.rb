@@ -17,8 +17,6 @@ feature 'User can add links to answer', %q(
 
     visit question_path(question)
 
-    expect(page).to have_css('turbo-frame#new_answer')
-
     within 'turbo-frame#new_answer' do
       fill_in 'Body', with: 'answer text text text'
 
@@ -40,10 +38,9 @@ feature 'User can add links to answer', %q(
 
     visit question_path(question)
 
-    #временно, для отладки редко выпадающей ошибки "expected to find css 'turbo-frame#new_answer'"
-    expect(page).to have_current_path(question_path(question), ignore_query: true)
-
-    expect(page).to have_css('turbo-frame#new_answer')
+    Capybara.using_wait_time(10) do
+      expect(page).to have_css('turbo-frame#new_answer')
+    end
 
     within 'turbo-frame#new_answer' do
       fill_in 'Body', with: 'answer text text text'
@@ -95,9 +92,11 @@ feature 'User can add links to answer', %q(
       click_on 'Submit answer'
     end
 
-    within 'turbo-frame#answers' do
-      expect(page).to have_content 'Hello, World!'
-    end
+    page.driver.browser.switch_to.default_content
+
+    #within 'turbo-frame#answers' do
+      expect(page).to have_selector('turbo-frame#answers', text: 'Hello, World!')
+    #end
   end
 
   scenario 'User adds links to a gist when writing a answer', js: true do
@@ -136,9 +135,11 @@ feature 'User can add links to answer', %q(
 
     expect(page).to have_css('turbo-frame#answers')
 
-    within 'turbo-frame#answers' do
-      expect(page).to have_content 'Hello, World!'
-      expect(page).to have_content 'gist for features test'
+    Capybara.using_wait_time(20) do
+      within 'turbo-frame#answers' do
+        expect(page).to have_content 'Hello, World!'
+        expect(page).to have_content 'gist for features test'
+      end
     end
   end
 end

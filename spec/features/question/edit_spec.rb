@@ -8,6 +8,7 @@ feature 'User can edit his question', %q(
   given!(:author) { create(:user) }
   given!(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
+  given(:url) { 'https://translate.google.com/' }
 
   scenario 'Unauthenticated can not edit question' do
     visit question_path(question)
@@ -20,7 +21,9 @@ feature 'User can edit his question', %q(
       sign_in(author)
       visit question_path(question)
 
-      expect(page).to have_link('Edit question')
+      Capybara.using_wait_time(10) do
+        expect(page).to have_link('Edit question')
+      end
       
       click_on 'Edit question'
 
@@ -47,6 +50,27 @@ feature 'User can edit his question', %q(
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'edits his question with attached link', js: true do
+      sign_in(author)
+      visit question_path(question)
+
+      expect(page).to have_link('Edit question')
+
+      within "turbo-frame#question_#{question.id}" do
+        click_on 'Edit question'
+        click_on 'Add link'
+
+        expect(page).to have_field('Link name')
+
+        fill_in 'Link name', with: 'My url edit'
+        fill_in 'Url', with: url
+
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'My url edit', href: url
     end
 
     scenario 'edits his question with errors title' do

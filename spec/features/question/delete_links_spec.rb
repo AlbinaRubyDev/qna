@@ -27,7 +27,9 @@ I would like to be able to delete the attached link
     visit question_path(question)
     link = question.links.first
 
-    within("li", text: link.name.to_s) do
+    expect(page).to have_selector('li', text: link.name)
+
+    within('li', text: link.name) do
       accept_confirm do
         click_on 'Delete link'
       end

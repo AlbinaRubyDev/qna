@@ -23,11 +23,6 @@ feature 'User can delete his best answer', %q(
 
       visit question_path(question)
 
-      #временно, для отладки редко выпадающей ошибки "expected to find css 'turbo-frame#best_answer'"
-      expect(page).to have_current_path(question_path(question), ignore_query: true)
-
-      expect(page).to have_css('turbo-frame#best_answer')
-
       within "turbo-frame#best_answer" do
         expect(page).to have_content answer.body
         expect(page).to have_link 'Delete answer'
