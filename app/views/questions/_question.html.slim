@@ -14,6 +14,12 @@ turbo-frame id=dom_id(question)
                 file_path(file),
                 data: { turbo_method: :delete, 
                         turbo_confirm: 'Are you sure?' }
+    
+    -if question.badge&.image&.attached?
+     .badge
+       =image_tag question.badge.image, width: 60, height: 45
+       =question.badge.title
+      
     p
       - if current_user&.author_of?(question)
         = link_to 'Edit question', 

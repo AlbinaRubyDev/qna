@@ -14,6 +14,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.build_badge
   end
 
   def edit
@@ -71,6 +72,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+      badge_attributes: [ :title, :image ])
   end
 end
