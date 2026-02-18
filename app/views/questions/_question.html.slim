@@ -1,4 +1,4 @@
-turbo-frame id=dom_id(question)
+turbo-frame id = dom_id(question)
   .question
     h1 = question.title
     p = question.body
@@ -6,7 +6,7 @@ turbo-frame id=dom_id(question)
     - if question.files.attached?
       ul
         - question.files.each do |file|
-          li id=dom_id(file)
+          li id = dom_id(file)
             = link_to file.filename.to_s, url_for(file)
             |  | 
             - if current_user&.author_of?(question)
@@ -17,8 +17,8 @@ turbo-frame id=dom_id(question)
     
     -if question.badge&.image&.attached?
      .badge
-       =image_tag question.badge.image, width: 60, height: 45
-       =question.badge.title
+       = image_tag question.badge.image, width: 60, height: 45
+       = question.badge.title
       
     p
       - if current_user&.author_of?(question)

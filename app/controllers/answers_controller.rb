@@ -81,6 +81,10 @@ class AnswersController < ApplicationController
     @best_answer = @question.best_answer
     @other_answers = @question.answers.where.not(id: @question.best_answer_id)
 
+    if @question.badge.present?
+      @best_answer.author.add_badge(@question.badge)
+    end
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [

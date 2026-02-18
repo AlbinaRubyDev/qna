@@ -18,5 +18,11 @@ FactoryBot.define do
           filename: 'spec_helper.rb')
       end
     end
+
+    trait :with_badge do
+      after(:create) do |question|
+        create(:badge, question: question)
+      end
+    end
   end
 end
