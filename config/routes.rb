@@ -8,5 +8,7 @@ Rails.application.routes.draw do
 
   resources :files, only: :destroy
 
+  resources :badges, only: :index
+
   root to: "questions#index"
 end
