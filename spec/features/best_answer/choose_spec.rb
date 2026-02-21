@@ -14,7 +14,10 @@ feature 'The author of the question can mark the answer as the best', %q(
     sign_in(author)
     visit question_path(question)
 
-    expect(page).to have_link 'Choose the best answer'
+    Capybara.using_wait_time(10) do
+      expect(page).to have_link 'Choose the best answer'
+    end
+    
     click_on 'Choose the best answer'
 
     expect(page).to have_content "This answer was chosen as the best"

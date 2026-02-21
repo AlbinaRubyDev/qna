@@ -1,6 +1,24 @@
 turbo-frame id=dom_id(answer) 
   p = answer.body
 
+  .links
+    p Links:
+    ul
+      - answer.links.each do |link|
+        li id=dom_id(link)
+          - if link.gist?
+            div data-controller="gist" data-gist="#{link.url}"
+            |
+          - else
+            = link_to link.name, link.url
+            |  | 
+          - if current_user&.author_of?(answer)
+              = link_to 'Delete link',
+                link_path(link),
+                data: { turbo_method: :delete, 
+                        turbo_confirm: 'Are you sure?' }
+        ul
+
   - if answer.files.attached?
     ul
       - answer.files.each do |file|

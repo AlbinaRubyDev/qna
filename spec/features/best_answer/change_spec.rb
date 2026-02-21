@@ -17,6 +17,8 @@ feature 'The author of the question can re-select the best answer', %q(
     sign_in(author)
     visit question_path(question)
 
+    expect(page).to have_css('turbo-frame#answers')
+    
     within "turbo-frame#answers" do
       expect(page).to have_link 'Choose the best answer'
       click_on 'Choose the best answer'
