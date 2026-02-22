@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new(question: @question)
+    @answer.links.new
     @best_answer = @question.best_answer
     @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
@@ -15,6 +16,7 @@ class QuestionsController < ApplicationController
   def new
     @question = Question.new
     @question.build_badge
+    @question.links.new # .build
   end
 
   def edit
@@ -72,7 +74,12 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [],
-      badge_attributes: [ :title, :image ])
+    params.require(:question).permit(
+      :title, 
+      :body,
+      files: [], 
+      links_attributes: [ :name, :url ],
+      badge_attributes: [ :title, :image ]
+    )
   end
 end

@@ -13,7 +13,7 @@ FactoryBot.define do
         question.files.attach(
           io: File.open(Rails.root.join('spec/rails_helper.rb')),
           filename: 'rails_helper.rb')
-       question.files.attach(
+        question.files.attach(
           io: File.open(Rails.root.join('spec/spec_helper.rb')),
           filename: 'spec_helper.rb')
       end
@@ -22,6 +22,13 @@ FactoryBot.define do
     trait :with_badge do
       after(:create) do |question|
         create(:badge, question: question)
+      end
+    end
+
+    trait :with_links do
+      after(:create) do |question|
+        create(:link, name: "Google", url: "https://google.com", linkable: question)
+        create(:link, name: "Github", url: "https://github.com", linkable: question)
       end
     end
   end

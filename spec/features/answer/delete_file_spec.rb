@@ -34,7 +34,9 @@ I would like to be able to delete the attached file
       end
     end
 
-    expect(page).to_not have_link file.filename.to_s
-    expect(page).to have_content answer.body
+    Capybara.using_wait_time(10) do
+      expect(page).to_not have_link file.filename.to_s
+      expect(page).to have_content answer.body
+    end
   end
 end

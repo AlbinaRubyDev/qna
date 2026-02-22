@@ -16,6 +16,8 @@ feature 'User can create answer', %q(
     end
 
     scenario 'writes a answer', js: true do
+      expect(page).to have_css('turbo-frame#new_answer')
+
       within 'turbo-frame#new_answer' do
         fill_in 'Body', with: 'answer text text text'
         click_on 'Submit answer'

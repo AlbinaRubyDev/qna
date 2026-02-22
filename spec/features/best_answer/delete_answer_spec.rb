@@ -17,6 +17,10 @@ feature 'User can delete his best answer', %q(
   describe 'Authenticated user' do
     scenario 'tries to delete your answer', js: true do
       sign_in(author)
+
+      #временно, для отладки редко выпадающей ошибки "expected to find css 'turbo-frame#best_answer'"
+      expect(question.reload.best_answer).to be_present
+
       visit question_path(question)
 
       within "turbo-frame#best_answer" do
