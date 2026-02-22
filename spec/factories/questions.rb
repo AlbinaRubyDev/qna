@@ -19,6 +19,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_badge do
+      after(:create) do |question|
+        create(:badge, question: question)
+      end
+    end
+
     trait :with_links do
       after(:create) do |question|
         create(:link, name: "Google", url: "https://google.com", linkable: question)

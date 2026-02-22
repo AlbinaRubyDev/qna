@@ -1,0 +1,7 @@
+h2 All my awards:
+
+- @badges.each do |badge|
+  p 
+    = badge.question.title
+    = image_tag badge.image, width: 60, height: 45
+    = badge.title

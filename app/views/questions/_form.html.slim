@@ -14,6 +14,13 @@
   p 
     = f.label :files 
     = f.file_field :files, multiple: true, direct_upload: true
+  p
+    = f.fields_for :badge do |b|
+      = b.label :title, "Title badge"
+      = b.text_field :title
+      = b.label :image 
+      = b.file_field :image, direct_upload: true
+  p 
   p Links:
   p 
   div data-controller="link"

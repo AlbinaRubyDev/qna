@@ -76,10 +76,7 @@ class AnswersController < ApplicationController
   def best_answer
     return unless current_user&.author_of?(@question)
 
-    @question.mark_as_best(@answer)
-
-    @best_answer = @question.best_answer
-    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
+    result = Answers::BestAnswerService.new(@question, @answer).call
 
     respond_to do |format|
       format.turbo_stream do
@@ -87,11 +84,11 @@ class AnswersController < ApplicationController
           turbo_stream.update(
             "best_answer",
             partial: "answers/best_answer",
-            locals: { answer: @best_answer, question: @question }),
+            locals: { answer: result[:best_answer], question: @question }),
           turbo_stream.update(
             "answers",
             partial: "answers/answers",
-            locals: { answers: @other_answers, question: @question }),
+            locals: { answers: result[:other_answers], question: @question }),
           turbo_stream.update(
             "flash",
             partial: "shared/turbo_flash",
