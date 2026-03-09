@@ -12,6 +12,10 @@ RSpec.describe Answer, type: :model do
 
   it { should respond_to(:this_best) }
 
+  it "includes Votable concern" do
+    expect(Answer.ancestors).to include(Votable)
+  end
+
   it 'this best answer boolean' do
     question = create(:question)
     answer1 = create(:answer, question: question)

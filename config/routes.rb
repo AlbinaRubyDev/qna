@@ -8,10 +8,12 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: [:votable] do
-    resources :answers, concerns: [:votable]  do
+    resources :answers do
       patch :best_answer, on: :member
     end
   end
+
+  resources :answers, only: [], concerns: [:votable]
 
   resources :badges, only: :index
   resources :files, only: :destroy
