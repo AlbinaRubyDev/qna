@@ -6,6 +6,8 @@ module Voted
   end
 
   def cast_vote
+    return if current_user&.author_of?(@votable)
+
     vote = @votable.votes.new(user: current_user, value: params[:value])
 
     if vote.save

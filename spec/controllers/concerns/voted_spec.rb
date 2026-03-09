@@ -8,19 +8,24 @@ shared_examples_for "voted" do
   describe 'PATCH #cast_vote' do
     before { login(user) }
 
-    context 'user votes for' do
+    context 'user votes' do
       it 'creates vote +1' do
         patch :cast_vote, params: vote_params(1), format: :json
 
-        expect(votable.reload.votes.sum(:value)).to eq(1)
+        expect(votable.votes.sum(:value)).to eq(1)
       end
-    end
 
-    context 'user votes against' do
       it 'creates vote -1' do
         patch :cast_vote, params: vote_params(-1), format: :json
 
         expect(votable.votes.sum(:value)).to eq(-1)
+      end
+    end
+
+    context 'the author cannot vote' do
+      it 'does NOT votes' do
+        login(author)
+        expect { patch :cast_vote, params: vote_params(1), format: :json }.to_not change(Vote, :count)
       end
     end
   end

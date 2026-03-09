@@ -133,7 +133,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'voted' do
-    let(:votable) { create(:answer, question: question) }
+    let!(:author) { create(:user) }
+    let(:votable) { create(:answer, question: question, author: author) }
 
     def vote_params(value)
       { question_id: question.id, id: votable.id, value: value }
