@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Voted
+  
   before_action :find_question, only: [ :create, :edit, :update, :destroy, :best_answer ]
   before_action :find_answer, only: [ :edit, :update, :destroy, :best_answer ]
 
