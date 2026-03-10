@@ -25,6 +25,32 @@ feature 'User can vote for answer' do
         expect(page).to have_css('.vote-rating', text: '-1')
       end
     end
+
+    scenario 'user is trying to vote for a answer again, although they have already voted +1', js: true do
+      within "turbo-frame#answer_#{answer.id}" do
+        click_on '↑'
+        expect(page).to have_css('.vote-rating', text: '1')
+
+        click_on '↑'
+        expect(page).to have_css('.vote-rating', text: '1')
+
+        click_on '↓'
+        expect(page).to have_css('.vote-rating', text: '1')
+      end
+    end
+
+    scenario 'user is trying to vote for a answer again, although they have already voted -1', js: true do
+      within "turbo-frame#answer_#{answer.id}" do
+        click_on '↓'
+        expect(page).to have_css('.vote-rating', text: '-1')
+
+        click_on '↓'
+        expect(page).to have_css('.vote-rating', text: '-1')
+
+        click_on '↑'
+        expect(page).to have_css('.vote-rating', text: '-1')
+      end
+    end
   end
 
   describe 'Author' do

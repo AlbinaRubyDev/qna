@@ -13,7 +13,7 @@ module Voted
     if vote.save
       render json: { rating: @votable.votes.sum(:value) }
     else
-      render json: { errors: vote.errors.full_messages }, status: :unprocessable_entity
+      render json: { rating: @votable.votes.sum(:value), errors: vote.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

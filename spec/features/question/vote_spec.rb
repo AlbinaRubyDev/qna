@@ -24,6 +24,32 @@ feature 'User can vote for question' do
         expect(page).to have_css('.vote-rating', text: '-1')
       end
     end
+
+    scenario 'user is trying to vote for a question again, although they have already voted +1', js: true do
+      within ".question_votes" do
+        click_on '↑'
+        expect(page).to have_css('.vote-rating', text: '1')
+
+        click_on '↑'
+        expect(page).to have_css('.vote-rating', text: '1')
+
+        click_on '↓'
+        expect(page).to have_css('.vote-rating', text: '1')
+      end
+    end
+
+    scenario 'user is trying to vote for a question again, although they have already voted -1', js: true do
+      within ".question_votes" do
+        click_on '↓'
+        expect(page).to have_css('.vote-rating', text: '-1')
+
+        click_on '↓'
+        expect(page).to have_css('.vote-rating', text: '-1')
+
+        click_on '↑'
+        expect(page).to have_css('.vote-rating', text: '-1')
+      end
+    end
   end
 
   describe 'Author' do
