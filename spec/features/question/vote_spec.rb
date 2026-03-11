@@ -50,6 +50,15 @@ feature 'User can vote for question' do
         expect(page).to have_css('.vote-rating', text: '-1')
       end
     end
+
+    scenario 'user can cancel vote for question', js: true do
+      within '.question_votes' do
+        click_on '↑'
+        click_on 'cancel vote'
+    
+        expect(page).to have_css('.vote-rating', text: '0')
+      end
+    end
   end
 
   describe 'Author' do

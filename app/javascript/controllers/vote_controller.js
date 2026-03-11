@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["rating"]
+  static targets = ["rating", "cancel"]
   static values = {
     type: String,
     id: Number
@@ -24,6 +24,30 @@ export default class extends Controller {
     .then(response => response.json())
     .then(data => {
       this.ratingTarget.innerHTML = data.rating
+      if (data.voted) {
+        this.cancelTarget.removeAttribute("hidden")
+      } else {
+        this.cancelTarget.setAttribute("hidden", "")
+      }
+    })
+  }
+
+  cancel(event) {
+    event.preventDefault()
+  
+    const url = `/${this.typeValue.toLowerCase()}s/${this.idValue}/cancel_vote`
+    const token = document.querySelector('meta[name="csrf-token"]')?.content
+  
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": token
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      this.ratingTarget.innerHTML = data.rating
+      this.cancelTarget.setAttribute("hidden", "")
     })
   }
 }

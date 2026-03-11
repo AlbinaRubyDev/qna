@@ -51,6 +51,15 @@ feature 'User can vote for answer' do
         expect(page).to have_css('.vote-rating', text: '-1')
       end
     end
+
+    scenario 'user can cancel vote for answer', js: true do
+      within "turbo-frame#answer_#{answer.id}" do
+        click_on '↑'
+        click_on 'cancel vote'
+    
+        expect(page).to have_css('.vote-rating', text: '0')
+      end
+    end
   end
 
   describe 'Author' do

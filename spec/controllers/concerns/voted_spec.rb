@@ -29,4 +29,19 @@ shared_examples_for "voted" do
       end
     end
   end
+
+  describe 'DELETE #cancel_vote' do
+    before { login(user) }
+    
+    let!(:vote) { votable.votes.create!(user: user, value: 1) }
+    
+    it 'user vote has been deleted' do
+      expect { delete :cancel_vote, params: { id: votable.id }, format: :json }.to change(Vote, :count).by(-1)
+    end
+    
+    it 'rating has been recalculated' do
+      delete :cancel_vote, params: { id: votable.id }, format: :json
+      expect(votable.votes.sum(:value)).to eq(0)
+    end
+  end
 end

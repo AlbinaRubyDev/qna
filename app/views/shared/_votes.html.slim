@@ -7,3 +7,6 @@
     |  | 
     = link_to "↓", "#",
       data: { action: "click->vote#vote", value: -1 }
+    |  | 
+    = link_to "cancel vote", "#", data: { action: "click->vote#cancel", vote_target: "cancel" },
+      hidden: !votable.user_voted?(current_user)
