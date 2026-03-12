@@ -1,4 +1,6 @@
 turbo-frame id = dom_id(answer) 
+  = render 'shared/votes', votable: answer
+  
   p = answer.body
 
   .links

@@ -1,0 +1,12 @@
+.voting data-controller = "vote" data-vote-type-value = votable.class.name data-vote-id-value = votable.id
+  .vote-rating data-vote-target = "rating"
+    = votable.votes.sum(:value)
+  - if user_signed_in? && !current_user&.author_of?(votable)
+    = link_to "↑", "#", 
+      data: { action: "click->vote#vote", value: 1 }
+    |  | 
+    = link_to "↓", "#",
+      data: { action: "click->vote#vote", value: -1 }
+    |  | 
+    = link_to "cancel vote", "#", data: { action: "click->vote#cancel", vote_target: "cancel" },
+      hidden: !votable.user_voted?(current_user)

@@ -1,5 +1,8 @@
 = link_to 'All questions', questions_path
 
+.question_votes
+  = render 'shared/votes', votable: @question
+  
 = render 'questions/question', question: @question
 
 - if @best_answer.present?

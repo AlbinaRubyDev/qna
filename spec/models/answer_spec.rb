@@ -12,6 +12,10 @@ RSpec.describe Answer, type: :model do
 
   it { should respond_to(:this_best) }
 
+  it "includes Votable concern" do
+    expect(Answer.ancestors).to include(Votable)
+  end
+
   it 'this best answer boolean' do
     question = create(:question)
     answer1 = create(:answer, question: question)
@@ -25,5 +29,12 @@ RSpec.describe Answer, type: :model do
 
   it 'have many attached files' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  describe 'votable' do
+    let(:question) { create(:question) }
+    subject { create(:answer, question: question) }
+
+    it_behaves_like "votable"
   end
 end

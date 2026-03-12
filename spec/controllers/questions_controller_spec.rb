@@ -161,4 +161,15 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'voted' do
+    let!(:author) { create(:user) }
+    let(:votable) { create(:question, author: author) }
+
+    def vote_params(value)
+      { id: votable.id, value: value }
+    end
+
+    it_behaves_like "voted"
+  end
 end

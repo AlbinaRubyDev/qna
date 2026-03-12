@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+
   it { should have_one(:badge).dependent(:destroy) }
 
   it { should have_many(:answers).dependent(:destroy) }
@@ -17,6 +18,10 @@ RSpec.describe Question, type: :model do
 
   it { should respond_to(:mark_as_best) }
 
+  it "includes Votable concern" do
+    expect(Question.ancestors).to include(Votable)
+  end
+
   it 'mark_as_best to the question' do
     question = create(:question)
     answer   = create(:answer, question: question)
@@ -28,5 +33,11 @@ RSpec.describe Question, type: :model do
 
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  describe 'votable' do
+    subject { create(:question) }
+
+    it_behaves_like "votable"
   end
 end
