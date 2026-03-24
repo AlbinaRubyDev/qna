@@ -11,6 +11,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
     @answer = Answer.new(question: @question)
     @answer.links.new
     @best_answer = @question.best_answer

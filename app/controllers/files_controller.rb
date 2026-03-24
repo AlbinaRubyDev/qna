@@ -1,6 +1,4 @@
 class FilesController < ApplicationController
-  before_action :authenticate_user!
-
   def destroy
     @association = ActiveStorage::Attachment.find(params[:id])
     object = @association.record

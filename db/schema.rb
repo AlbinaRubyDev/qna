@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_23_141552) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_16_112239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_23_141552) do
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_badges_on_question_id"
     t.index ["user_id"], name: "index_badges_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "commentable_type", null: false
+    t.bigint "commentable_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -113,6 +124,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_23_141552) do
   add_foreign_key "answers", "users", column: "author_id"
   add_foreign_key "badges", "questions"
   add_foreign_key "badges", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "questions", "answers", column: "best_answer_id"
   add_foreign_key "questions", "users", column: "author_id"
   add_foreign_key "votes", "users"

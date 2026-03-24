@@ -37,4 +37,11 @@ RSpec.describe Answer, type: :model do
 
     it_behaves_like "votable"
   end
+
+  describe 'commentable' do
+    let(:question) { create(:question) }
+    subject { create(:answer, question: question) }
+
+    it_behaves_like "commentable"
+  end
 end

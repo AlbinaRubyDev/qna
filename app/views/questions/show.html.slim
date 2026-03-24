@@ -5,6 +5,9 @@
   
 = render 'questions/question', question: @question
 
+.question_comments
+  = render 'shared/comments', commentable: @question
+
 - if @best_answer.present?
   turbo-frame#best_answer
     = render 'answers/best_answer', answer: @best_answer, question: @question
