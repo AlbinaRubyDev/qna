@@ -1,4 +1,5 @@
-.comments id = dom_id(commentable, :comments)
+.comments id=dom_id(commentable, :comments) data-commentable-type=commentable.class.name data-commentable-id=commentable.id
+
   - if commentable.comments.present?
     = render commentable.comments
   - else

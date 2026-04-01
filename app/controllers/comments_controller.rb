@@ -1,6 +1,9 @@
 class CommentsController < ApplicationController
+  before_action :find_commentable, only: [ :create ]
+
+  after_action :publish_comment, only: [:create]
+
   def create
-    @commentable = find_commentable
     @comment = @commentable.comments.build(comment_params)
     @comment.user = current_user
 
@@ -24,11 +27,23 @@ class CommentsController < ApplicationController
 
   private
 
+  def publish_comment
+    return if @comment.errors.any?
+  
+    ActionCable.server.broadcast(
+      "#{@commentable.class.name.underscore}_#{@commentable.id}_comments",
+      {
+        id: @comment.id,
+        body: @comment.body
+      }
+    )
+  end
+
   def comment_params
     params.require(:comment).permit(:body)
   end
 
   def find_commentable
-    params[:commentable_type].constantize.find(params[:commentable_id])
+    @commentable = params[:commentable_type].constantize.find(params[:commentable_id])
   end
 end

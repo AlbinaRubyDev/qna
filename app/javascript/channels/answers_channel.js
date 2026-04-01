@@ -1,25 +1,40 @@
 import consumer from "channels/consumer"
 
-consumer.subscriptions.create("AnswersChannel", {
-  connected() {
-    const answersList = document.querySelector(".answers-list")
-    if (!answersList) return
-    this.perform("follow", { question_id: answersList.dataset.questionId })
-  },
+let subscription_answer
 
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
+function subscribeToAnswers() {
+  const answersList = document.querySelector(".answers-list")
+  if (!answersList) return
 
-  received(data) {
-    const answersList = document.querySelector(".answers-list")
-    if (!answersList) return
+  if (subscription_answer) {
+    consumer.subscriptions.remove(subscription_answer)
+  }
 
-    answersList.insertAdjacentHTML(
-      "beforeend",
-      `<turbo-frame id = "answer_${data.id}">
+  subscription_answer = consumer.subscriptions.create("AnswersChannel", {
+    connected() {
+      const answersList = document.querySelector(".answers-list")
+      if (!answersList) return
+      this.perform("follow", {
+        question_id: answersList.dataset.questionId
+      })
+    },
+
+    disconnected() {
+      // Called when the subscription has been terminated by the server
+    },
+
+    received(data) {
+      const answersList = document.querySelector(".answers-list")
+      if (!answersList) return
+
+      answersList.insertAdjacentHTML(
+          "beforeend",
+          `<turbo-frame id = "answer_${data.id}">
          <p>${data.body}</p>
        </turbo-frame>`
-    )
-  }
-});
+      )
+    }
+  })
+}
+
+document.addEventListener("turbo:load", subscribeToAnswers);
