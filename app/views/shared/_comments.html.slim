@@ -1,0 +1,9 @@
+.comments id=dom_id(commentable, :comments) data-commentable-type=commentable.class.name data-commentable-id=commentable.id
+
+  - if commentable.comments.present?
+    = render commentable.comments
+  - else
+    p no comments
+
+- if user_signed_in?
+  = render 'comments/form', commentable: commentable, comment: @comment

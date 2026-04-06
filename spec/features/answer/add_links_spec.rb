@@ -94,9 +94,7 @@ feature 'User can add links to answer', %q(
 
     page.driver.browser.switch_to.default_content
 
-    #within 'turbo-frame#answers' do
-      expect(page).to have_selector('turbo-frame#answers', text: 'Hello, World!')
-    #end
+    expect(page).to have_selector('turbo-frame#answers', text: 'Hello, World!')
   end
 
   scenario 'User adds links to a gist when writing a answer', js: true do

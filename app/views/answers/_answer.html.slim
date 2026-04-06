@@ -46,3 +46,6 @@ turbo-frame id = dom_id(answer)
     - if current_user&.author_of?(question)
       = link_to 'Choose the best answer', best_answer_question_answer_path(answer, question_id: question.id),
         data: {turbo_method: :patch}
+
+  .answer_comments
+    = render 'shared/comments', commentable: answer

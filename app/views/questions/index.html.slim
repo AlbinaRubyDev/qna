@@ -1,11 +1,5 @@
 = link_to 'Ask question', new_question_path
 
-- @questions.each do |question|
-  p
-    = link_to question.title, question_path(question)
-    |  
-    - if current_user&.author_of?(question)
-        = link_to 'Delete question', 
-                   question_path(question), 
-                   data: { turbo_method: :delete, 
-                   turbo_confirm: 'Are you sure?' }
+.questions-list
+  - @questions.each do |question|
+    = render 'questions/question_title', question: question

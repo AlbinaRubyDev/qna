@@ -1,0 +1,6 @@
+= turbo_stream.append dom_id(@commentable, :comments) do
+  = render 'comments/comment', comment: @comment
+
+= turbo_stream.replace dom_id(@commentable, :new_comment) do
+  = render 'comments/form', commentable: @commentable, comment: Comment.new
+  

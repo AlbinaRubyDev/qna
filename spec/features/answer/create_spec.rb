@@ -57,4 +57,36 @@ feature 'User can create answer', %q(
     expect(page).to_not have_link 'Submit answer'
     expect(page).to have_content 'Log in to write a answer'
   end
+
+  context "multiple sessions" do
+    scenario "answer appears on another  user's page", js: true do
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+
+        expect(page).to have_css('turbo-frame#new_answer')
+
+        within 'turbo-frame#new_answer' do
+          fill_in 'Body', with: 'answer text text text'
+          click_on 'Submit answer'
+        end
+  
+        expect(current_path).to eq question_path(question)
+        expect(page).to have_content question.title
+        expect(page).to have_content question.body
+  
+        within 'turbo-frame#answers' do
+          expect(page).to have_content 'answer text text text'
+        end
+      end
+      
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'answer text text text'
+      end
+    end
+  end
 end

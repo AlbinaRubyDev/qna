@@ -5,12 +5,15 @@
   
 = render 'questions/question', question: @question
 
+.question_comments
+  = render 'shared/comments', commentable: @question
+
 - if @best_answer.present?
   turbo-frame#best_answer
     = render 'answers/best_answer', answer: @best_answer, question: @question
 
 h3 Other answers:
-turbo-frame#answers
+turbo-frame#answers.answers-list data-question-id = @question.id
   = render 'answers/answers', answers: @other_answers, question: @question
 
 - if user_signed_in?

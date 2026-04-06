@@ -17,8 +17,11 @@ Rails.application.routes.draw do
   resources :answers, only: [], concerns: [:votable]
 
   resources :badges, only: :index
+  resources :comments, only: :create
   resources :files, only: :destroy
   resources :links, only: :destroy
 
   root to: "questions#index"
+
+  mount ActionCable.server => '/cable'
 end

@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [ :create, :edit, :update, :destroy, :best_answer ]
   before_action :find_answer, only: [ :edit, :update, :destroy, :best_answer ]
 
+  after_action :publish_answer, only: [:create]
+
   def create
     @answer = @question.answers.build(answer_params)
     @answer.author = current_user
@@ -101,6 +103,19 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if @answer.errors.any?
+  
+    ActionCable.server.broadcast(
+      "question_#{@question.id}_answers",
+      {
+        id: @answer.id,
+        body: @answer.body,
+        question_id: @question.id
+      }
+    )
+  end
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: [ :name, :url ])

@@ -34,7 +34,7 @@ turbo-frame id = dom_id(question)
   .links
     p Links:
     ul
-      - @question.links.each do |link|
+      - question.links.each do |link|
         li id=dom_id(link)
           - if link.gist?
             div data-controller="gist" data-gist="#{link.url}"

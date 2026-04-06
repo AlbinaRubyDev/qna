@@ -1,0 +1,16 @@
+- comment ||= Comment.new
+
+- frame_id = "#{commentable.class.name.underscore}_#{commentable.id}_new_comment"
+
+= turbo_frame_tag frame_id do
+  = form_with scope: :comment, url: comments_path, method: :post do |f|
+    = hidden_field_tag :commentable_type, commentable.class.name
+    = hidden_field_tag :commentable_id, commentable.id
+    
+    - if comment.errors.present?
+      = render 'shared/errors', resource: comment
+    p
+      = f.label :body, 'Comment'
+      = f.text_area :body
+    p
+      = f.submit "Send"
