@@ -32,4 +32,12 @@ feature 'User can sign in', %q(
 
     expect(page).to have_content 'Successfully authenticated from Github account.'
   end
+
+  scenario 'User signs in with Twitter', js: true do
+    mock_auth_hash(:twitter2)
+
+    click_on 'Sign in with Twitter'
+
+    expect(page).to have_content 'Successfully authenticated from Twitter2 account.'
+  end
 end

@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :rememberable,
          :validatable,
          :omniauthable,
-         omniauth_providers: [:github]
+         omniauth_providers: [:github, :twitter2]
 
   has_many :answers, dependent: :destroy, foreign_key: :author_id
   has_many :authorizations, dependent: :destroy
