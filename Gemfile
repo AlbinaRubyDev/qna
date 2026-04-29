@@ -33,6 +33,11 @@ gem "bootsnap", require: false
 gem "slim-rails"
 gem "devise"
 gem "validate_url"
+gem "omniauth"
+gem "omniauth-github"
+gem 'omniauth-twitter2'
+gem "oauth2", "~> 1.4"
+gem 'omniauth-rails_csrf_protection'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -58,6 +63,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem 'letter_opener'
 end
 
 group :test do
@@ -67,4 +73,5 @@ group :test do
   gem "shoulda-matchers"
   gem "rails-controller-testing"
   gem 'launchy'
+  gem 'capybara-email'
 end
